@@ -310,10 +310,10 @@ def fast_sort(lst):
     i = j = 0
     while i < len(left) and j < len(right):
         if left[i] <= right[j]:
-            result.append(left[i])
+            sorted_list.append(left[i])
             i += 1
         else:
-            result.append(right[j])
+            sorted_list.append(right[j])
             j += 1
     sorted_list.extend(left[i:])
     sorted_list.extend(right[j:])
