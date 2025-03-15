@@ -115,14 +115,13 @@ class Keyboard:
         keyboard = []
         for i, row in enumerate(self.rows):
             spaces = " " * i
-            if i == 2:  
+            if i == 2:
                 spaces = "   "
             row_letters = []
             for letter in row:
                 row_letters.append(color_word(self.colors[letter], letter))
             keyboard.append(spaces + " ".join(row_letters))
-        
-    return "\n".join(keyboard)
+        return "\n".join(keyboard)
 class WordFamily:
     """
     A class representing a group or 'family' of words that match a specific
@@ -317,6 +316,9 @@ def fast_sort(lst):
     right = fast_sort(lst[middle:])
     return merge(left, right)
 def merge(left, right):
+    """
+    merges the lists
+    """
     sorted_list = []
     i = j = 0
     while i < len(left) and j < len(right):
@@ -387,7 +389,7 @@ def get_feedback(remaining_secret_words, guessed_word):
     for feedback_colors, words in families.items():
         wfamilies.append(WordFamily(feedback_colors, words))
     hardest_families = fast_sort(wfamilies)
-    return hardest_family.feedback_colors, hardest_family.words
+    return hardest_families.feedback_colors, hardest_families.words
 # DO NOT modify this function.
 def main():
     """
