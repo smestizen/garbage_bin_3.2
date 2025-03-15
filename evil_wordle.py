@@ -83,13 +83,13 @@ class Keyboard:
 
         post: None
         """
-        for i, letter in enumerate(guessed_word):
-            color = self.colors[letter]
-            if color == CORRECT_COLOR:
+        for k, letter in enumerate(guessed_word):
+            feedback_color = feedback_colors[k]
+            if feedback_color == CORRECT_COLOR:
                 self.colors[letter] = CORRECT_COLOR
-            elif color == WRONG_SPOT_COLOR and self.colors[letter] != CORRECT_COLOR:
+            elif feedback_color == WRONG_SPOT_COLOR and self.colors[letter] != CORRECT_COLOR:
                 self.colors[letter] = WRONG_SPOT_COLOR
-            elif color == NOT_IN_WORD_COLOR and self.colors[letter] == NO_COLOR:
+            elif feedback_color == NOT_IN_WORD_COLOR and self.colors[letter] == NO_COLOR:
                 self.colors[letter] = NOT_IN_WORD_COLOR
     def __str__(self):
         """
@@ -304,12 +304,12 @@ def fast_sort(lst):
     if len(lst) <= 1:
         return lst
     middle = len(lst) // 2
-    left = fast_sort(lst[:mid])
-    right = fast_sort(lst[mid:])
+    left = fast_sort(lst[:middle])
+    right = fast_sort(lst[middle:])
     sorted_list = []
     i = j = 0
     while i < len(left) and j < len(right):
-        if left[i] < right[j]:  
+        if left[i] < right[j]:
             sorted_list.append(left[i])
             i += 1
         else:
