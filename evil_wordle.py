@@ -114,11 +114,15 @@ class Keyboard:
         """
         keyboard = []
         for i, row in enumerate(self.rows):
+            spaces = " " * i
+            if i == 2:  
+                spaces = "   "
             row_letters = []
             for letter in row:
                 row_letters.append(color_word(self.colors[letter], letter))
-        keyboard.append(" " * i + " ".join(row_letters))
-        return "\n".join(keyboard)
+            keyboard.append(spaces + " ".join(row_letters))
+        
+    return "\n".join(keyboard)
 class WordFamily:
     """
     A class representing a group or 'family' of words that match a specific
