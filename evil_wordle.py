@@ -166,11 +166,8 @@ class WordFamily:
         """
         if not isinstance(other, WordFamily):
             raise NotImplementedError("< operator only valid for WordFamily comparisons.")
-        if len(self.words) != len(other.words):
-            return len(self.words) < len(other.words)
-        if self.difficulty != other.difficulty:
-            return self.difficulty < other.difficulty
-        return self.feedback_colors < other.feedback_colors
+        return (-len(self.words), -self.difficulty, self.feedback_colors) < \
+        (-len(other.words), -other.difficulty, other.feedback_colors)
 
     # DO NOT change this method.
     # You should use this for debugging!
@@ -314,15 +311,10 @@ def fast_sort(lst):
     middle = len(lst) // 2
     left = fast_sort(lst[:middle])
     right = fast_sort(lst[middle:])
-    return merge(left, right)
-def merge(left, right):
-    """
-    merges the lists
-    """
     sorted_list = []
     i = j = 0
     while i < len(left) and j < len(right):
-        if left[i] <= right[j]:
+        if left[i] < right[j]:
             sorted_list.append(left[i])
             i += 1
         else:
@@ -381,14 +373,13 @@ def get_feedback(remaining_secret_words, guessed_word):
     """
     families = {}
     for word in remaining_secret_words:
-        feedback_colors = get_feedback_colors(remaining_secret_words[0], guessed_word)
+        feedback_colors = tuple(get_feedback_colors(remaining_secret_words[0], guessed_word))
         if feedback_colors not in families:
             families[feedback_colors] = []
         families[feedback_colors].append(word)
     wfamilies = []
-    for feedback_colors, words in families.items():
-        wfamilies.append(WordFamily(feedback_colors, words))
-    hardest_families = fast_sort(wfamilies)
+    wfamilies = [WordFamily(pattern, words) for pattern, words in wfamilies.items()]
+    hardest_families = fast_sort(wfamilies)[0]
     return hardest_families.feedback_colors, hardest_families.words
 # DO NOT modify this function.
 def main():
