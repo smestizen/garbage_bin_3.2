@@ -375,7 +375,6 @@ def get_feedback(remaining_secret_words, guessed_word):
     for word in remaining_secret_words:
         feedback_colors = tuple(get_feedback_colors(remaining_secret_words[0], guessed_word))
         families[feedback_colors].append(word)
-    wfamilies = []
     wfamilies = [WordFamily(key, words) for key, words in families.items()]
     sorted_families = fast_sort(wfamilies)
     hardest_families = sorted_families[0]
