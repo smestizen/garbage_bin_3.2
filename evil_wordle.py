@@ -335,7 +335,7 @@ def get_feedback_colors(secret_word, guessed_word):
             feedback[i] = CORRECT_COLOR
             swlist[i] = None
     for i in range(NUM_LETTERS):
-        if feedback[i] == CORRECT_COLOR
+        if feedback[i] == CORRECT_COLOR:
             continue
         if guessed_word[i] in swlist:
             feedback[i] = WRONG_SPOT_COLOR
