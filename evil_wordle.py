@@ -311,6 +311,8 @@ def fast_sort(lst):
     middle = len(lst) // 2
     left = fast_sort(lst[:middle])
     right = fast_sort(lst[middle:])
+    return merge(left, right)
+def merge(left, right)
     sorted_list = []
     i = j = 0
     while i < len(left) and j < len(right):
