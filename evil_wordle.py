@@ -372,7 +372,7 @@ def get_feedback(remaining_secret_words, guessed_word):
         if feedback_colors not in families:
             families[feedback_colors] = []
         families[feedback_colors].append(word)
-    wfamilies = [WordFamily(words, feedback) for feedback, words in families.items()
+    wfamilies = [WordFamily(words, feedback) for feedback, words in families.items()]
     hardest_family = fast_sort(wfamilies)[0]
     return hardest_family.feedback_colors, hardest_family.words
 
