@@ -85,11 +85,12 @@ class Keyboard:
         """
         for i, letter in enumerate(guessed_word):
             color = self.colors[letter]
-            newcolor = feedback_colors[i]
-            if (newcolor == CORRECT_COLOR or
-            (newcolor == WRONG_SPOT_COLOR and color != CORRECT_COLOR) or
-            (color == NO_COLOR and newcolor == NOT_IN_WORD_COLOR)):
-                self.colors[letter] = newcolor
+            if color == CORRECT_COLOR:
+                self.colors[letter] = CORRECT_COLOR
+            elif color == WRONG_SPOT_COLOR and self.colors[letter] != CORRECT_COLOR:
+                self.colors[letter] = WRONG_SPOT_COLOR
+            elif color == NOT_IN_WORD_COLOR and self.colors[letter] == NO_COLOR:
+                self.colors[letter] = NOT_IN_WORD_COLOR
     def __str__(self):
         """
         Returns a string representation of the keyboard, showing each letter in its
@@ -302,11 +303,21 @@ def fast_sort(lst):
     """
     if len(lst) <= 1:
         return lst
-    pivot = lst[len(lst) // 2]
-    left = [x for x in lst if x < pivot]
-    middle = [x for x in lst if x == pivot]
-    right = [x for x in lst if x > pivot]
-    return fast_sort(left) + middle + fast_sort(right)
+    middle = len(lst) // 2
+    left = fast_sort(lst[:mid])
+    right = fast_sort(lst[mid:])
+    sorted_list = []
+    i = j = 0
+    while i < len(left) and j < len(right):
+        if left[i] < right[j]:  
+            sorted_list.append(left[i])
+            i += 1
+        else:
+            sorted_list.append(right[j])
+            j += 1
+    sorted_list.extend(left[i:])
+    sorted_list.extend(right[j:])
+    return sorted_list
 def get_feedback_colors(secret_word, guessed_word):
     """
     Processes the guess and generates the colored feedback based on the potential secret word. This
@@ -361,9 +372,8 @@ def get_feedback(remaining_secret_words, guessed_word):
         if feedback_colors not in families:
             families[feedback_colors] = []
         families[feedback_colors].append(word)
-    wfamilies = [WordFamily(words, feedback) for feedback, words in families.items()]
-    wfamilies.sort(reverse=True)
-    hardest_family = word_families[0]
+    wfamilies = [WordFamily(words, feedback) for feedback, words in families.items()
+    hardest_family = fast_sort(wfamilies)[0]
     return hardest_family.feedback_colors, hardest_family.words
 
 
